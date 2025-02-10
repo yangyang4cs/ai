@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable Panels</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .panel {
+            height: 800px;
+            overflow: hidden;
+            flex-grow: 1;
+            padding: 10px;
+        }
+        .left {
+            background: #f8f8f8;
+            min-width: 100px;
+            max-width: 80%;
+        }
+        .right {
+            background: #e8e8e8;
+            min-width: 100px;
+            max-width: 80%;
+        }
+        .divider {
+            width: 6px;
+            background: #ccc;
+            cursor: col-resize;
+            transition: background 0.2s;
+        }
+        .divider:hover {
+            background: #888;
+        }
+        textarea {
+            width: 100%;
+            height: 100%;
+            resize: none;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="panel left">
+            <textarea placeholder="Left panel content..."></textarea>
+        </div>
+
+        <!-- Draggable Divider -->
+        <div class="divider" id="divider"></div>
+
+        <!-- Right Panel -->
+        <div class="panel right">
+            <textarea placeholder="Right panel content..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        const divider = document.getElementById("divider");
+        const leftPanel = document.querySelector(".left");
+        const rightPanel = document.querySelector(".right");
+
+        let isDragging = false;
+
+        divider.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
+        });
+
+        function onMouseMove(event) {
+            if (!isDragging) return;
+
+            const containerWidth = document.querySelector(".container").clientWidth;
+            let newLeftWidth = event.clientX;
+
+            // Restrict min/max width
+            if (newLeftWidth < 100) newLeftWidth = 100;
+            if (newLeftWidth > containerWidth - 100) newLeftWidth = containerWidth - 100;
+
+            leftPanel.style.width = `${newLeftWidth}px`;
+            rightPanel.style.width = `${containerWidth - newLeftWidth - 6}px`;
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
+        }
+    </script>
+</body>
+</html>
