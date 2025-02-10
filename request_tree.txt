@@ -1,0 +1,11 @@
+1. Use javascript and css to write a tree in html. A tree item (or a tree node) in the tree can be expanded and collapsed.
+
+2. The render of the tree is similar to Eclipse Tree.
+(1) If a Tree item has children Tree items, the Tree item is shown with a folder icon.
+(2) If a Tree item is a leaf Tree item, the Tree item is shown with a file icon.
+(3) In front of a Tree item's icon, instead of drawing lines, draw arrow. Use arrow icon in front of a Tree item. When a Tree item is collapsed, use a right-pointed arrow. When a Tree item is expanded, use a down-pointed arrow.
+
+3. Create a html with sample code to create a Tree.
+(1) The Tree has 3 root items: Root1, Root2
+(2) Root1 has 3 children items: doc1, doc2, readme.txt
+(3) Root2 has 3 children items: dev1, dev2, dev.txt

@@ -1,0 +1,37 @@
+https://stackoverflow.com/questions/34288372/parsing-google-news-in-java
+
+You can use rss feeds of google news url http://news.google.com/?output=rss it will return google rss news in the rss tag with html tags. 
+Then either write custom code to read/parse the xml or using any existing RSS reading library like https://github.com/vgrec/SimpleRssReader
+
+public Document getNews() {
+    Document news = new Document();
+    URL rssUrl = null;
+    try {
+        rssUrl = new URL("https://news.google.com/rss");
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+    }
+    DocumentBuilder builder = null;
+    try {
+        builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    } catch (ParserConfigurationException e) {
+        e.printStackTrace();
+    }
+    org.w3c.dom.Document doc = null;
+    try {
+        doc = builder.parse(rssUrl.openStream());
+    } catch (SAXException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    NodeList items = doc.getElementsByTagName("item");
+    Element item = (Element) items.item(new Random().nextInt(items.getLength()));
+    news.append("title", getValue(item, "title"));
+    news.append("link", getValue(item, "link"));
+    return news;
+}
+
+private String getValue(Element parent, String nodeName) {
+    return parent.getElementsByTagName(nodeName).item(0).getFirstChild().toString();
+}

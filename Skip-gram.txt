@@ -1,0 +1,25 @@
+Skip-gram is a model used in natural language processing (NLP) to learn word embeddings (continuous vector representations of words) by predicting the context words for a given target word. It is a part of the Word2Vec family of models introduced by Mikolov et al. in 2013 and is particularly effective for capturing semantic and syntactic relationships between words.
+
+Key Concept:
+In skip-gram, the goal is to predict the context (surrounding words) given a specific target word. For example, in the sentence "The cat sits on the mat," if "cat" is the target word, the skip-gram model will try to predict words like "The," "sits," and "on."
+
+How it works:
+    Input: A target word from the training corpus.
+    Output: A set of context words within a defined "window" around the target word.
+        If the window size is 2, for the word "cat" in "The cat sits on the mat," the context words would be "The" and "sits."
+    Training: The skip-gram model learns to predict these context words using a neural network. It trains by maximizing the probability of context words appearing near the target word in the corpus.
+
+Architecture:
+The skip-gram model uses a simple neural network:
+    The input is the one-hot encoded representation of the target word.
+    A hidden layer transforms the input into a dense vector, which is the word embedding.
+    The output layer predicts the probability of each word in the vocabulary being a context word.
+
+Example:
+If the sentence is "I like playing football," and the target word is "like," with a window size of 1, the skip-gram model will try to predict "I" and "playing" from "like."
+Characteristics:
+    Sparse to Dense Representation: Skip-gram converts sparse one-hot encoded word representations into dense word vectors.
+    Efficient for Large Data: It can handle very large corpora efficiently using techniques like negative sampling and hierarchical softmax.
+    Good for Rare Words: Skip-gram works well for capturing representations of less frequent words.
+
+In summary, the skip-gram model is designed to capture both syntactic and semantic information about words by predicting the surrounding context from a target word.

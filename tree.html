@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Example</title>
+    <link rel="stylesheet" href="tree.css">
+</head>
+<body>
+    <div class="tree">
+        <ul>
+            <li><span class="caret folder-icon">RootA</span>
+                <ul class="nested">
+                    <li class="caret folder-icon">doc1</li>
+                    <li class="caret folder-icon">doc2</li>
+                    <li class="file-icon">readme.txt</li>
+                </ul>
+            </li>
+            <li><span class="caret folder-icon">RootB</span>
+                <ul class="nested">
+                    <li class="caret folder-icon">dev1</li>
+                    <li class="caret folder-icon">dev2</li>
+                    <li class="file-icon">dev.txt</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script src="tree.js"></script>
+</body>
+</html>
