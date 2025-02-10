@@ -102,7 +102,15 @@ cacheable modules 139 KiB
   ./node_modules/react-resizable-panels/dist/react-resizable-panels.browser.deve...(truncated) 83.3 KiB [built] [code generated]
 webpack 5.97.1 compiled successfully in 1585 ms
 
-C:\dev\ai>
+C:\dev\ai> npm install
+up to date, audited 152 packages in 917ms
+
+22 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\dev\ai> 
 ------------------------------------------------------------------------------------------------------------------------------
 
 
