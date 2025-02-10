@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable Panels (Fixed Ratios)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .panel {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .sub-panel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .horizontal-divider {
+            height: 3px;
+            background: #eee;
+            cursor: row-resize;
+            transition: background 0.2s;
+        }
+        .horizontal-divider:hover {
+            background: #888;
+        }
+        .divider {
+            width: 3px;
+            background: #eee;
+            cursor: col-resize;
+            transition: background 0.2s;
+        }
+        .divider:hover {
+            background: #888;
+        }
+        textarea {
+            width: 100%;
+            height: 100%;
+            resize: none;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel (30% width) -->
+        <div class="panel left" id="leftPanel" style="width: 20%;">
+            <div class="sub-panel left-top" id="leftTop" style="height: 70%;">
+                <textarea placeholder="Left Top Panel"></textarea>
+            </div>
+            <div class="horizontal-divider" id="leftDivider"></div>
+            <div class="sub-panel left-bottom" id="leftBottom" style="height: 30%;">
+                <textarea placeholder="Left Bottom Panel"></textarea>
+            </div>
+        </div>
+
+        <!-- Draggable Vertical Divider -->
+        <div class="divider" id="mainDivider"></div>
+
+        <!-- Right Panel (70% width) -->
+        <div class="panel right" id="rightPanel" style="width: 80%;">
+            <div class="sub-panel right-top" id="rightTop" style="height: 65%;">
+                <textarea placeholder="Right Top Panel"></textarea>
+            </div>
+            <div class="horizontal-divider" id="rightDivider"></div>
+            <div class="sub-panel right-bottom" id="rightBottom" style="height: 35%;">
+                <textarea placeholder="Right Bottom Panel"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainDivider = document.getElementById("mainDivider");
+        const leftPanel = document.getElementById("leftPanel");
+        const rightPanel = document.getElementById("rightPanel");
+
+        let isDraggingMain = false;
+        mainDivider.addEventListener("mousedown", (event) => {
+            isDraggingMain = true;
+            document.addEventListener("mousemove", onMainMove);
+            document.addEventListener("mouseup", onMainUp);
+        });
+
+        function onMainMove(event) {
+            if (!isDraggingMain) return;
+            const containerWidth = document.querySelector(".container").clientWidth;
+            let newLeftWidth = event.clientX / containerWidth * 100;
+
+            if (newLeftWidth < 10) newLeftWidth = 10;
+            if (newLeftWidth > 90) newLeftWidth = 90;
+
+            leftPanel.style.width = `${newLeftWidth}%`;
+            rightPanel.style.width = `${100 - newLeftWidth}%`;
+        }
+
+        function onMainUp() {
+            isDraggingMain = false;
+            document.removeEventListener("mousemove", onMainMove);
+            document.removeEventListener("mouseup", onMainUp);
+        }
+
+        function makeHorizontalResizable(dividerId, topPanelId, bottomPanelId) {
+            const divider = document.getElementById(dividerId);
+            const topPanel = document.getElementById(topPanelId);
+            const bottomPanel = document.getElementById(bottomPanelId);
+            let isDragging = false;
+
+            divider.addEventListener("mousedown", (event) => {
+                isDragging = true;
+                document.addEventListener("mousemove", onMouseMove);
+                document.addEventListener("mouseup", onMouseUp);
+            });
+
+            function onMouseMove(event) {
+                if (!isDragging) return;
+                const parentHeight = topPanel.parentElement.clientHeight;
+                let newTopHeight = event.clientY - topPanel.parentElement.offsetTop;
+
+                if (newTopHeight < 50) newTopHeight = 50;
+                if (newTopHeight > parentHeight - 50) newTopHeight = parentHeight - 50;
+
+                topPanel.style.height = `${(newTopHeight / parentHeight) * 100}%`;
+                bottomPanel.style.height = `${100 - (newTopHeight / parentHeight) * 100}%`;
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                document.removeEventListener("mousemove", onMouseMove);
+                document.removeEventListener("mouseup", onMouseUp);
+            }
+        }
+
+        makeHorizontalResizable("leftDivider", "leftTop", "leftBottom");
+        makeHorizontalResizable("rightDivider", "rightTop", "rightBottom");
+    </script>
+</body>
+</html>
